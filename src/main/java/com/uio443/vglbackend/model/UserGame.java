@@ -1,18 +1,30 @@
 package com.uio443.vglbackend.model;
 
+import jakarta.persistence.*;
 
-public class UserGames {
+@Entity
+@Table(name = "user_games")
+public class UserGame {
 
-    private final long IGDB_ID;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(nullable = false, updatable = false)
+    private long IGDB_ID;
     private String completionStatus;
     private double hoursPlayed;
-    private int hiddenStatus;
+    private boolean hiddenStatus;
+    @ManyToOne
+    @JoinColumn(name ="user_id", nullable = false)
+    private User user;
 
-    public UserGames(long IGDB_ID, String completionStatus, double hoursPlayed, int hiddenStatus) {
+    public UserGame () {}
+
+    public UserGame(long IGDB_ID, String completionStatus, double hoursPlayed, boolean hiddenStatus, User user) {
         this.IGDB_ID = IGDB_ID;
         this.completionStatus = completionStatus;
         this.hoursPlayed = hoursPlayed;
         this.hiddenStatus = hiddenStatus;
+        this.user = user;
     }
 
     public long getIGDB_ID() {
@@ -35,11 +47,19 @@ public class UserGames {
         this.hoursPlayed = hoursPlayed;
     }
 
-    public int getHiddenStatus() {
+    public boolean getHiddenStatus() {
         return hiddenStatus;
     }
 
-    public void setHiddenStatus(int hiddenStatus) {
+    public void setHiddenStatus(boolean hiddenStatus) {
         this.hiddenStatus = hiddenStatus;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

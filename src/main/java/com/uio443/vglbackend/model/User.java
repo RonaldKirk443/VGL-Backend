@@ -1,31 +1,36 @@
 package com.uio443.vglbackend.model;
 
-import jakarta.persistence.Embedded;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+
+import java.util.*;
 
 @Entity
 public class User {
     @Id
-    private long ID;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(nullable = false, updatable = false)
+    private long id;
     private String email;
     private String username;
-    @Embedded
-    private UserGameList userGameList;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<UserGame> userGameList = new ArrayList<>();
     private String pfpLink;
 
-    public User() {
-    }
+    public User() { }
 
-    public User(String email, String username, UserGameList userGameList, String pfpLink) {
+    public User(String email, String username, List<UserGame> userGameList, String pfpLink) {
         this.email = email;
         this.username = username;
         this.userGameList = userGameList;
         this.pfpLink = pfpLink;
     }
 
-    public long getID() {
-        return ID;
+    public long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getEmail() {
@@ -44,19 +49,19 @@ public class User {
         this.username = username;
     }
 
-    public UserGameList getUserGameList() {
-        return userGameList;
-    }
-
-    public void setUserGameList(UserGameList userGameList) {
-        this.userGameList = userGameList;
-    }
-
     public String getPfpLink() {
         return pfpLink;
     }
 
     public void setPfpLink(String pfpLink) {
         this.pfpLink = pfpLink;
+    }
+
+    public List<UserGame> getUserGameList() {
+        return userGameList;
+    }
+
+    public void setUserGameList(List<UserGame> userGameList) {
+        this.userGameList = userGameList;
     }
 }
