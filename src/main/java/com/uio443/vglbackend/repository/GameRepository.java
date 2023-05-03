@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -24,6 +25,10 @@ public interface GameRepository extends JpaRepository<Game, Long> {
     @Transactional
     @Query("SELECT e FROM Game e WHERE e.title = ?1")
     Optional<Game> findGameBytitle(String title);
+
+    @Transactional
+    @Query("SELECT e FROM Game e")
+    List<Game> getAllGames();
 
 
 }

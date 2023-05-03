@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/game")
 public class GameController {
@@ -28,6 +30,12 @@ public class GameController {
     public ResponseEntity<Game> getGamebyigdbID(@PathVariable("title") String title) {
         Game game = gameService.getGamebytitle(title);
         return new ResponseEntity<>(game, HttpStatus.OK);
+    }
+
+    @GetMapping("/games")
+    public ResponseEntity<List<Game>> getAllGames() {
+        List<Game> gameList = gameService.getAllGames();
+        return new ResponseEntity<>(gameList, HttpStatus.OK);
     }
 
     @PostMapping("/add")
