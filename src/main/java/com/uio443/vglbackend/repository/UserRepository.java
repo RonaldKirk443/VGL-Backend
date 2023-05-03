@@ -13,11 +13,27 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User, Long> {
     @Transactional
     @Modifying
-    @Query("DELETE FROM User e WHERE e.id = ?1")
+    @Query("DELETE FROM User u WHERE u.id = ?1")
     void deleteUserById(Long id);
 
     @Transactional
-    @Query("SELECT e FROM User e WHERE e.id = ?1")
+    @Query("SELECT u FROM User u WHERE u.id = ?1")
     Optional<User> findUserById(Long id);
+
+    @Transactional
+    @Query("SELECT u FROM User u WHERE u.username = ?1")
+    Optional<User> findUserByUsername(String username);
+
+    @Transactional
+    @Query("SELECT u FROM User u WHERE u.email = ?1")
+    Optional<User> findUserByEmail(String email);
+
+    @Transactional
+    @Query("SELECT EXISTS(SELECT u FROM User  u WHERE u.username = ?1)")
+    boolean existsByUsername(String username);
+
+    @Transactional
+    @Query("SELECT EXISTS(SELECT u FROM User  u WHERE u.email = ?1)")
+    boolean existsByEmail(String email);
 
 }

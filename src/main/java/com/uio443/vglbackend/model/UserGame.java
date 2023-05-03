@@ -1,41 +1,50 @@
 package com.uio443.vglbackend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.uio443.vglbackend.enums.HiddenStatus;
+import com.uio443.vglbackend.enums.CompletionStatus;
+import com.uio443.vglbackend.primarykey.UserGameId;
 import jakarta.persistence.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
+@IdClass(UserGameId.class)
 @Table(name = "user_games")
 public class UserGame {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false, updatable = false)
-    private long IGDB_ID;
-    private String completionStatus;
-    private double hoursPlayed;
-    private boolean hiddenStatus;
-    @ManyToOne
-    @JoinColumn(name ="user_id", nullable = false)
+    private long igdbId;
+    @Id
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "user_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
     private User user;
+    private CompletionStatus completionStatus;
+    private double hoursPlayed;
+    private HiddenStatus hiddenStatus;
 
-    public UserGame () {}
-
-    public UserGame(long IGDB_ID, String completionStatus, double hoursPlayed, boolean hiddenStatus, User user) {
-        this.IGDB_ID = IGDB_ID;
-        this.completionStatus = completionStatus;
-        this.hoursPlayed = hoursPlayed;
-        this.hiddenStatus = hiddenStatus;
-        this.user = user;
+    public UserGame () {
+        this.igdbId = -1;
+        this.user = null;
+        this.completionStatus = CompletionStatus.Default;
+        this.hoursPlayed = 0;
+        this.hiddenStatus = HiddenStatus.Default;
     }
 
-    public long getIGDB_ID() {
-        return IGDB_ID;
+    public long getIgdbId() {
+        return igdbId;
     }
 
-    public String getCompletionStatus() {
+    public void setIgdbId(Long igdbId) {this.igdbId = igdbId;}
+
+    public CompletionStatus getCompletionStatus() {
         return completionStatus;
     }
 
-    public void setCompletionStatus(String completionStatus) {
+    public void setCompletionStatus(CompletionStatus completionStatus) {
         this.completionStatus = completionStatus;
     }
 
@@ -47,11 +56,11 @@ public class UserGame {
         this.hoursPlayed = hoursPlayed;
     }
 
-    public boolean getHiddenStatus() {
+    public HiddenStatus getHiddenStatus() {
         return hiddenStatus;
     }
 
-    public void setHiddenStatus(boolean hiddenStatus) {
+    public void setHiddenStatus(HiddenStatus hiddenStatus) {
         this.hiddenStatus = hiddenStatus;
     }
 
