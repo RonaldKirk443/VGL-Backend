@@ -21,5 +21,9 @@ public interface GameRepository extends JpaRepository<Game, Long> {
     @Query("SELECT e FROM Game e WHERE e.igdbID = ?1")
     Optional<Game> findGameByigdbID(Long igdbID);
 
+    @Transactional
+    @Query("SELECT e FROM Game e WHERE e.title = ?1")
+    Optional<Game> findGameBytitle(String title);
+
 
 }

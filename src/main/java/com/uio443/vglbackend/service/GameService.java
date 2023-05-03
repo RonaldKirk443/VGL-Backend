@@ -22,6 +22,10 @@ public class GameService {
         return gameRepository.findGameByigdbID(igdbID).orElseThrow(() -> new RuntimeException("Bad ID"));
     }
 
+    public Game getGamebytitle(String title) {
+        return gameRepository.findGameBytitle(title).orElseThrow(() -> new RuntimeException("No such Game exists"));
+    }
+
     public Game addGame(Game game) {
         return gameRepository.save(game);
     }

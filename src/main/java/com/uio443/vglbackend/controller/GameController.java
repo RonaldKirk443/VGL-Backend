@@ -18,9 +18,15 @@ public class GameController {
         this.gameService = gameService;
     }
 
-    @GetMapping("/{igdbID}")
+    @GetMapping("/id/{igdbID}")
     public ResponseEntity<Game> getGamebyigdbID(@PathVariable("igdbID") Long igdbID) {
         Game game = gameService.getGamebyidgbID(igdbID);
+        return new ResponseEntity<>(game, HttpStatus.OK);
+    }
+
+    @GetMapping("/title/{title}")
+    public ResponseEntity<Game> getGamebyigdbID(@PathVariable("title") String title) {
+        Game game = gameService.getGamebytitle(title);
         return new ResponseEntity<>(game, HttpStatus.OK);
     }
 
