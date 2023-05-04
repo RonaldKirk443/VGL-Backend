@@ -14,6 +14,8 @@ public class User {
     private String username;
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<UserGame> userGameList = new ArrayList<>();
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Review> userReview = new ArrayList<>();
     private String pfpLink;
 
     public User() { }

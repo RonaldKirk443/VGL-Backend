@@ -2,6 +2,8 @@ package com.uio443.vglbackend.model;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -10,27 +12,29 @@ public class Game {
 
     @Id
     @Column(nullable = false, updatable = false)
-    private Long igdbID;
+    private Long igdbId;
     private String title;
     private String coverImgUrl;
     @ElementCollection
     private Set<Integer> genres;
+    @OneToMany(mappedBy = "game", cascade = CascadeType.ALL)
+    private List<Review> gameReviews = new ArrayList<>();
 
     public Game () {}
 
-    public Game(Long igdbID, String title, String coverImgUrl, Set<Integer> genres) {
-        this.igdbID = igdbID;
+    public Game(Long igdbId, String title, String coverImgUrl, Set<Integer> genres) {
+        this.igdbId = igdbId;
         this.title = title;
         this.coverImgUrl = coverImgUrl;
         this.genres = genres;
     }
 
-    public Long getIgdbID() {
-        return igdbID;
+    public Long getIgdbId() {
+        return igdbId;
     }
 
-    public void setIgdbID(Long igdbID) {
-        this.igdbID = igdbID;
+    public void setIgdbId(Long igdbId) {
+        this.igdbId = igdbId;
     }
 
     public String getTitle() {

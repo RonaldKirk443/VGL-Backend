@@ -15,12 +15,12 @@ public interface GameRepository extends JpaRepository<Game, Long> {
 
     @Transactional
     @Modifying
-    @Query("DELETE FROM Game e WHERE e.igdbID = ?1")
-    void deleteGameByigdbID(Long igdbID);
+    @Query("DELETE FROM Game e WHERE e.igdbId = ?1")
+    void deleteGameByigdbId(Long igdbId);
 
     @Transactional
-    @Query("SELECT e FROM Game e WHERE e.igdbID = ?1")
-    Optional<Game> findGameByigdbID(Long igdbID);
+    @Query("SELECT e FROM Game e WHERE e.igdbId = ?1")
+    Optional<Game> findGameByigdbId(Long igdbId);
 
     @Transactional
     @Query("SELECT e FROM Game e WHERE e.title = ?1")

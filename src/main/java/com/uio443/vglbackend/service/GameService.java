@@ -20,8 +20,8 @@ public class GameService {
         this.gameRepository = gameRepository;
     }
 
-    public Game getGamebyidgbID(Long igdbID) {
-        return gameRepository.findGameByigdbID(igdbID).orElseThrow(() -> new RuntimeException("Bad ID"));
+    public Game getGamebyidgbId(Long igdbId) {
+        return gameRepository.findGameByigdbId(igdbId).orElseThrow(() -> new RuntimeException("Bad ID"));
     }
 
     public Game getGamebytitle(String title) {
@@ -33,8 +33,8 @@ public class GameService {
     }
 
     public Game updateGame(Game game) {
-        Optional<Game> gameIdCheck = gameRepository.findGameByigdbID(game.getIgdbID());
-        if (gameIdCheck.isEmpty()) throw new RuntimeException(String.format("Game does not exist with %d", game.getIgdbID()));
+        Optional<Game> gameIdCheck = gameRepository.findGameByigdbId(game.getIgdbId());
+        if (gameIdCheck.isEmpty()) throw new RuntimeException(String.format("Game does not exist with %d", game.getIgdbId()));
 
         Game newGame = gameIdCheck.get();
 
@@ -53,12 +53,12 @@ public class GameService {
         return gameRepository.save(newGame);
     }
 
-    public void deleteGame(Long igdbID) {
-        if (gameRepository.findGameByigdbID(igdbID).isEmpty()) {
-            throw new RuntimeException(String.format("Game does not exist with ID %d", igdbID));
+    public void deleteGame(Long igdbId) {
+        if (gameRepository.findGameByigdbId(igdbId).isEmpty()) {
+            throw new RuntimeException(String.format("Game does not exist with ID %d", igdbId));
         }
 
-        gameRepository.deleteGameByigdbID(igdbID);
+        gameRepository.deleteGameByigdbId(igdbId);
     }
 
 

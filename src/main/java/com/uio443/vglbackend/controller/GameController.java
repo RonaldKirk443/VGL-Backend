@@ -20,14 +20,14 @@ public class GameController {
         this.gameService = gameService;
     }
 
-    @GetMapping("/id/{igdbID}")
-    public ResponseEntity<Game> getGamebyigdbID(@PathVariable("igdbID") Long igdbID) {
-        Game game = gameService.getGamebyidgbID(igdbID);
+    @GetMapping("/id/{igdbId}")
+    public ResponseEntity<Game> getGamebyigdbId(@PathVariable("igdbId") Long igdbId) {
+        Game game = gameService.getGamebyidgbId(igdbId);
         return new ResponseEntity<>(game, HttpStatus.OK);
     }
 
     @GetMapping("/title/{title}")
-    public ResponseEntity<Game> getGamebyigdbID(@PathVariable("title") String title) {
+    public ResponseEntity<Game> getGamebyigdbId(@PathVariable("title") String title) {
         Game game = gameService.getGamebytitle(title);
         return new ResponseEntity<>(game, HttpStatus.OK);
     }
@@ -50,9 +50,9 @@ public class GameController {
         return new ResponseEntity<>(newGame, HttpStatus.ACCEPTED);
     }
 
-    @DeleteMapping("/delete/{igdbID}")
-    public ResponseEntity deleteGame(@PathVariable("igdbID") Long igdbID) {
-        gameService.deleteGame(igdbID);
+    @DeleteMapping("/delete/{igdbId}")
+    public ResponseEntity deleteGame(@PathVariable("igdbId") Long igdbId) {
+        gameService.deleteGame(igdbId);
         return new ResponseEntity(HttpStatus.OK);
     }
 
