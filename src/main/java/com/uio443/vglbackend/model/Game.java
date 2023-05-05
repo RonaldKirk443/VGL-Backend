@@ -1,16 +1,21 @@
 package com.uio443.vglbackend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 @Entity
-@Table(name = "Game")
+@Table(name = "game")
 public class Game {
 
     @Id
     @Column(nullable = false, updatable = false)
-    private Long igdbID;
+    private Long igdbId;
     private String title;
     private String coverImgUrl;
     @ElementCollection
@@ -18,19 +23,19 @@ public class Game {
 
     public Game () {}
 
-    public Game(Long igdbID, String title, String coverImgUrl, Set<Integer> genres) {
-        this.igdbID = igdbID;
+    public Game(Long igdbId, String title, String coverImgUrl, Set<Integer> genres) {
+        this.igdbId = igdbId;
         this.title = title;
         this.coverImgUrl = coverImgUrl;
         this.genres = genres;
     }
 
-    public Long getIgdbID() {
-        return igdbID;
+    public Long getIgdbId() {
+        return igdbId;
     }
 
-    public void setIgdbID(Long igdbID) {
-        this.igdbID = igdbID;
+    public void setIgdbId(Long igdbId) {
+        this.igdbId = igdbId;
     }
 
     public String getTitle() {
