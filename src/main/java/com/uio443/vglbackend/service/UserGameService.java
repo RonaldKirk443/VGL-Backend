@@ -16,17 +16,20 @@ import java.util.*;
 public class UserGameService {
     private final UserGameRepository userGameRepository;
     private final UserRepository userRepository;
+    private final GameService gameService;
 
     @Autowired
-    public UserGameService(UserGameRepository userGameRepository, UserRepository userRepository) {
+    public UserGameService(UserGameRepository userGameRepository, UserRepository userRepository, GameService gameService) {
         this.userGameRepository = userGameRepository;
         this.userRepository = userRepository;
+        this.gameService = gameService;
     }
 
     public UserGame addGame(Long userId, UserGame userGame) {
         if(userGame.getIgdbId() == -1) throw new RuntimeException("Game Id not passed");
         userGame.setUser(userRepository.findUserById(userId).orElseThrow(() -> new UserNotFoundException(userId)));
         if(userGameRepository.existsByUserIdIgdbId(userId, userGame.getIgdbId())) throw new RuntimeException("Game existo");
+        gameService.addGame(userGame.getIgdbId());
         return userGameRepository.save(userGame);
     }
 
