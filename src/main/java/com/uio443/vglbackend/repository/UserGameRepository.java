@@ -1,5 +1,6 @@
 package com.uio443.vglbackend.repository;
 
+import com.uio443.vglbackend.model.User;
 import com.uio443.vglbackend.model.UserGame;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -28,5 +29,8 @@ public interface UserGameRepository extends JpaRepository<UserGame, Long> {
     @Query("DELETE FROM UserGame u WHERE u.user.id = ?1 AND u.igdbId = ?2")
     void deleteGame(Long userId, Long igdbId);
 
+    @Transactional
+    @Query("SELECT u.id FROM User u join u.userGameList l where l.igdbId=?1")
+    List<Long> getAllUserIdsByIgdbId(Long igdbId);
 
 }
