@@ -24,7 +24,7 @@ public class UserGameService {
     }
 
     public UserGame addGame(Long userId, UserGame userGame) {
-        if(userGame.getIgdbId() == -1) throw new RuntimeException("Game Id not passed");
+        if(userGame.getIgdbId() == -1) throw new RuntimeException("Game id not passed");
         userGame.setUser(userRepository.findUserById(userId).orElseThrow(() -> new UserNotFoundException(userId)));
         if(userGameRepository.existsByUserIdIgdbId(userId, userGame.getIgdbId())) throw new RuntimeException("Game existo");
         return userGameRepository.save(userGame);

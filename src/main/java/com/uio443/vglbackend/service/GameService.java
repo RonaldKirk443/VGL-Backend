@@ -20,7 +20,7 @@ public class GameService {
         this.gameRepository = gameRepository;
     }
 
-    public Game getGamebyidgbId(Long igdbId) {
+    public Game getGamebyigdbId(Long igdbId) {
         return gameRepository.findGameByigdbId(igdbId).orElseThrow(() -> new RuntimeException("Bad ID"));
     }
 
@@ -55,7 +55,7 @@ public class GameService {
 
     public void deleteGame(Long igdbId) {
         if (gameRepository.findGameByigdbId(igdbId).isEmpty()) {
-            throw new RuntimeException(String.format("Game does not exist with ID %d", igdbId));
+            throw new RuntimeException(String.format("Game does not exist with id %d", igdbId));
         }
 
         gameRepository.deleteGameByigdbId(igdbId);

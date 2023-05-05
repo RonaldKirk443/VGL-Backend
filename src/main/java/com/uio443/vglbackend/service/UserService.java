@@ -16,7 +16,7 @@ public class UserService {
     public UserService(UserRepository userRepository) {this.userRepository = userRepository;}
 
 
-    public User getUserByID(Long userId){
+    public User getUserById(Long userId){
         return userRepository.findUserById(userId).orElseThrow(() -> new UserNotFoundException(userId));
     }
 

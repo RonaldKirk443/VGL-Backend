@@ -22,7 +22,7 @@ public class GameController {
 
     @GetMapping("/id/{igdbId}")
     public ResponseEntity<Game> getGamebyigdbId(@PathVariable("igdbId") Long igdbId) {
-        Game game = gameService.getGamebyidgbId(igdbId);
+        Game game = gameService.getGamebyigdbId(igdbId);
         return new ResponseEntity<>(game, HttpStatus.OK);
     }
 
