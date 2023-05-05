@@ -9,6 +9,9 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 @Configuration
 public class IgdbWebClientConfiguration {
+    public static final String IGDB_CLIENT_ID = System.getenv("IGDB_CLIENT_ID");
+    public static final String IGDB_TOKEN = System.getenv("IGDB_TOKEN");
+
     @Bean
     public WebClient igdbWebclient() {
         final int size = 16 * 1024 * 1024;
@@ -19,8 +22,8 @@ public class IgdbWebClientConfiguration {
         return WebClient
                 .builder()
                 .baseUrl("https://api.igdb.com/v4")
-                .defaultHeader("Client-ID", "csrdtykjfk5w11ji3qgpnfupll53ei")
-                .defaultHeader("Authorization", "Bearer 5x2fpwtpnr9go99uofqgciaqtd4uuz")
+                .defaultHeader("Client-ID", IGDB_CLIENT_ID)
+                .defaultHeader("Authorization", String.format("Bearer %s", IGDB_TOKEN))
                 .exchangeStrategies(strategies)
                 .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .build();

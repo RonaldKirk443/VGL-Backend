@@ -28,7 +28,7 @@ public class ReviewService {
 
     public Review addReview(Long userId, Long igdbId, Review review) {
         review.setUser(userRepository.findUserById(userId).orElseThrow(() -> new UserNotFoundException(userId)));
-        review.setGame(gameRepository.findGameByigdbId(igdbId).orElseThrow(() -> new GameNotFoundException(igdbId)));
+        review.setGame(gameRepository.findGameByIgdbId(igdbId).orElseThrow(() -> new GameNotFoundException(igdbId)));
         if(reviewRepository.reviewExistsByUserIdIgdbId(userId, igdbId)) throw new RuntimeException("Review already exists");
         return reviewRepository.save(review);
     }
