@@ -20,6 +20,8 @@ public class Game {
     private String coverImgUrl;
     @ElementCollection
     private Set<Integer> genres;
+    @OneToMany(mappedBy = "game", cascade = CascadeType.ALL)
+    private List<Review> gameReviews = new ArrayList<>();
 
     public Game () {}
 
