@@ -14,7 +14,11 @@ public interface UserGameRepository extends JpaRepository<UserGame, Long> {
 
     @Transactional
     @Query("SELECT u FROM UserGame u WHERE u.user.id = ?1")
-    List<UserGame> getAllGamesByUserId(Long userId);
+    List<UserGame> getAllUserGamesByUserId(Long userId);
+
+    @Transactional
+    @Query("SELECT u FROM UserGame u WHERE u.igdbId = ?1")
+    List<UserGame> getAllUserGamesByIgdbId(Long igdbId);
 
     @Transactional
     @Query("SELECT u FROM UserGame u WHERE u.user.id = ?1 AND u.igdbId = ?2")
@@ -32,5 +36,15 @@ public interface UserGameRepository extends JpaRepository<UserGame, Long> {
     @Transactional
     @Query("SELECT u.id FROM User u join u.userGameList l where l.igdbId=?1")
     List<Long> getAllUserIdsByIgdbId(Long igdbId);
+
+    //Reviews
+    @Transactional
+    @Query("SELECT u.user.id, u.rating, u.review FROM UserGame u WHERE u.igdbId = ?1")
+    List<Object> getAllReviewsByigdbId(Long igdbId);
+
+    @Transactional
+    @Query("SELECT u.igdbId, u.rating, u.review FROM UserGame u WHERE u.user.id = ?1")
+    List<Object> getAllReviewsByUserId(Long userId);
+
 
 }

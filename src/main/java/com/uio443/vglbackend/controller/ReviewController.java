@@ -1,7 +1,5 @@
 package com.uio443.vglbackend.controller;
 
-import com.uio443.vglbackend.model.Review;
-import com.uio443.vglbackend.model.UserGame;
 import com.uio443.vglbackend.service.ReviewService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,32 +18,32 @@ public class ReviewController {
     }
 
     @PostMapping("/add/{userId}/{igdbId}")
-    public ResponseEntity<Review> addReview(@PathVariable(value = "userId") Long userId, @PathVariable(value = "igdbId") Long igdbId, @RequestBody Review review) {
-        Review newReview = reviewService.addReview(userId, igdbId, review);
-        return new ResponseEntity<>(newReview, HttpStatus.CREATED);
+    public ResponseEntity<String> addReview(@PathVariable(value = "userId") Long userId, @PathVariable(value = "igdbId") Long igdbId, @RequestBody String review) {
+        reviewService.addReview(userId, igdbId, review);
+        return new ResponseEntity<>(review, HttpStatus.CREATED);
     }
 
     @PutMapping("/game/{igdbId}/user/{userId}/updateReview")
-    public ResponseEntity<Review> updateReview(@PathVariable(value = "userId") Long userId, @PathVariable(value = "igdbId") Long igdbId, @RequestBody Review review) {
-        Review newReview = reviewService.updateReview(userId, igdbId, review);
-        return new ResponseEntity<>(newReview, HttpStatus.OK);
+    public ResponseEntity<String> updateReview(@PathVariable(value = "userId") Long userId, @PathVariable(value = "igdbId") Long igdbId, @RequestBody String review) {
+        reviewService.updateReview(userId, igdbId, review);
+        return new ResponseEntity<>(review, HttpStatus.OK);
     }
 
     @GetMapping("/get/game/{igdbId}/user/{userId}")
-    public ResponseEntity<Review> getReviewByUserIdIgdbId(@PathVariable(value = "userId") Long userId, @PathVariable(value = "igdbId") Long igdbId) {
-        Review review = reviewService.getReview(userId, igdbId);
+    public ResponseEntity<Object> getReviewByUserIdIgdbId(@PathVariable(value = "userId") Long userId, @PathVariable(value = "igdbId") Long igdbId) {
+        Object review = reviewService.getReview(userId, igdbId);
         return new ResponseEntity<>(review, HttpStatus.OK);
     }
 
     @GetMapping("/get/game/{igdbId}/reviews")
-    public ResponseEntity<List<Review>> getReviewsbyigdbId(@PathVariable(value = "igdbId") Long igdbId) {
-        List<Review> reviewList = reviewService.getReviewListByGame(igdbId);
+    public ResponseEntity<List<Object>> getReviewsbyigdbId(@PathVariable(value = "igdbId") Long igdbId) {
+        List<Object> reviewList = reviewService.getReviewListByGame(igdbId);
         return new ResponseEntity<>(reviewList, HttpStatus.OK);
     }
 
     @GetMapping("/get/user/{userId}/reviews")
-    public ResponseEntity<List<Review>> getReviewsbyuserId(@PathVariable(value = "userId") Long userId) {
-        List<Review> reviewList = reviewService.getReviewListByUser(userId);
+    public ResponseEntity<List<Object>> getReviewsbyuserId(@PathVariable(value = "userId") Long userId) {
+        List<Object> reviewList = reviewService.getReviewListByUser(userId);
         return new ResponseEntity<>(reviewList, HttpStatus.OK);
     }
 

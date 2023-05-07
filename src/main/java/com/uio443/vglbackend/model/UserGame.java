@@ -25,6 +25,8 @@ public class UserGame {
     private CompletionStatus completionStatus;
     private double hoursPlayed;
     private HiddenStatus hiddenStatus;
+    private double rating;
+    private String review;
 
     public UserGame () {
         this.igdbId = -1;
@@ -32,6 +34,8 @@ public class UserGame {
         this.completionStatus = CompletionStatus.Default;
         this.hoursPlayed = 0;
         this.hiddenStatus = HiddenStatus.Default;
+        this.rating = -1;
+        this.review = null;
     }
 
     public long getIgdbId() {
@@ -70,5 +74,21 @@ public class UserGame {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public double getRating() {
+        return rating;
+    }
+
+    public void setRating(double rating) {
+        this.rating = rating;
+    }
+
+    public String getReview() {
+        return review;
+    }
+
+    public void setReview(String review) {
+        this.review = review;
     }
 }
