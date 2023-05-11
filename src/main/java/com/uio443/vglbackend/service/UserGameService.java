@@ -35,7 +35,7 @@ public class UserGameService {
 
     public List<UserGame> getGameList(Long userId) {
         if(!userRepository.existsById(userId)) throw new UserNotFoundException(userId);
-        return userGameRepository.getAllGamesByUserId(userId);
+        return userGameRepository.getAllUserGamesByUserId(userId);
     }
 
     public UserGame getGame(Long userId, Long igdbId){
