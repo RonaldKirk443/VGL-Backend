@@ -25,58 +25,27 @@ public class ReviewService {
         this.userGameRepository = userGameRepository;
     }
 
-    public void addRating(Long userId, Long igdbId, double rating){
-        UserGame newUserGame = userGameRepository.getGameByUserIdIgdbId(userId, igdbId)
-                .orElseThrow(() -> new UserGameNotFoundException(userId, igdbId));
-        // I AM NOT CHECKING TO MAKE SURE THE REVIEW DOES NOT EXIST
-        // This means that this method can be used to update the review as well
-        // Can be changed by uncommenting the next line
-        // if(newUserGame.getRating() != -1) throw new RuntimeException("User already set a rating for this game");
-        if (rating != -1 && newUserGame.getRating() != rating){
-            newUserGame.setRating(rating);
-        }
-        userGameRepository.save(newUserGame);
-
-    }
-
-    public void updateRating(Long userId, Long igdbId, double rating){
-        UserGame newUserGame = userGameRepository.getGameByUserIdIgdbId(userId, igdbId)
-                .orElseThrow(() -> new UserGameNotFoundException(userId, igdbId));
-        if(newUserGame.getRating() == -1) throw new RuntimeException("User does not have a rating for this game");
-        if (rating != -1 && newUserGame.getRating() != rating){
-            newUserGame.setRating(rating);
-        }
-        userGameRepository.save(newUserGame);
-
-    }
-
-    public void addReview(Long userId, Long igdbId, String review) {
+    public double getUserRating(Long userId, Long igdbId){
         if(!userRepository.existsById(userId)) throw new UserNotFoundException(userId);
-        UserGame newUserGame = userGameRepository.getGameByUserIdIgdbId(userId, igdbId)
-                .orElseThrow(() -> new UserGameNotFoundException(userId, igdbId));
-        // I AM NOT CHECKING TO MAKE SURE THE REVIEW DOES NOT EXIST
-        // This means that this method can be used to update the review as well
-        // Can be changed by uncommenting the next line
-        //if(newUserGame.getReview() != null) throw new RuntimeException("A review already exists");
-        if (review != null){
-            newUserGame.setReview(review);
-        }
-        userGameRepository.save(newUserGame);
+        UserGame userGame = userGameRepository.getGameByUserIdIgdbId(userId, igdbId).orElseThrow(() -> new GameNotFoundException(igdbId));
+        return userGame.getRating();
     }
 
-    public void updateReview(Long userId, Long igdbId, String review) {
-        if(!userRepository.existsById(userId)) throw new UserNotFoundException(userId);
-        UserGame newUserGame = userGameRepository.getGameByUserIdIgdbId(userId, igdbId)
-                .orElseThrow(() -> new UserGameNotFoundException(userId, igdbId));
-        if(newUserGame.getReview() == null) throw new RuntimeException("Review does not exist");
-
-        if (review != null && !newUserGame.getReview().equals(review)){
-            newUserGame.setReview(review);
+    public double getGameRating(Long igdbId){
+        List<UserGame> userGameList = userGameRepository.getAllUserGamesByIgdbId(igdbId);
+        int counter = 0;
+        double avg = 0;
+        for (UserGame u : userGameList){
+            if(u.getRating() != -1){
+                counter++;
+                avg += u.getRating();
+            }
         }
-        userGameRepository.save(newUserGame);
+        avg = avg / counter;
+        return avg;
     }
 
-    public String getReview(Long userId, Long igdbId) {
+    public String getReviewComment(Long userId, Long igdbId) {
         if(!userRepository.existsById(userId)) throw new UserNotFoundException(userId);
         UserGame userGame = userGameRepository.getGameByUserIdIgdbId(userId, igdbId).orElseThrow(() -> new GameNotFoundException(igdbId));
         return userGame.getReview();
@@ -91,7 +60,58 @@ public class ReviewService {
         return userGameRepository.getAllReviewsByUserId(userId);
     }
 
-    public void deleteReview(Long userId, Long igdbId) {
+    public void addRating(Long userId, Long igdbId, double rating){
+        UserGame newUserGame = userGameRepository.getGameByUserIdIgdbId(userId, igdbId)
+                .orElseThrow(() -> new UserGameNotFoundException(userId, igdbId));
+        // I AM NOT CHECKING TO MAKE SURE THE REVIEW DOES NOT EXIST
+        // This means that this method can be used to update the review as well
+        // Can be changed by uncommenting the next line
+        // if(newUserGame.getRating() != -1) throw new RuntimeException("User already set a rating for this game");
+        if (rating != -1 && newUserGame.getRating() != rating){
+            newUserGame.setRating(rating);
+        }
+        userGameRepository.save(newUserGame);
+
+    }
+
+    public void addReviewComment(Long userId, Long igdbId, String reviewComment) {
+        if(!userRepository.existsById(userId)) throw new UserNotFoundException(userId);
+        UserGame newUserGame = userGameRepository.getGameByUserIdIgdbId(userId, igdbId)
+                .orElseThrow(() -> new UserGameNotFoundException(userId, igdbId));
+        // I AM NOT CHECKING TO MAKE SURE THE REVIEW DOES NOT EXIST
+        // This means that this method can be used to update the review as well
+        // Can be changed by uncommenting the next line
+        //if(newUserGame.getReview() != null) throw new RuntimeException("A review already exists");
+        if (reviewComment != null){
+            newUserGame.setReview(reviewComment);
+        }
+        userGameRepository.save(newUserGame);
+    }
+
+    public void updateRating(Long userId, Long igdbId, double rating){
+        UserGame newUserGame = userGameRepository.getGameByUserIdIgdbId(userId, igdbId)
+                .orElseThrow(() -> new UserGameNotFoundException(userId, igdbId));
+        if(newUserGame.getRating() == -1) throw new RuntimeException("User does not have a rating for this game");
+        if (rating != -1 && newUserGame.getRating() != rating){
+            newUserGame.setRating(rating);
+        }
+        userGameRepository.save(newUserGame);
+
+    }
+
+    public void updateReviewComment(Long userId, Long igdbId, String reviewComment) {
+        if(!userRepository.existsById(userId)) throw new UserNotFoundException(userId);
+        UserGame newUserGame = userGameRepository.getGameByUserIdIgdbId(userId, igdbId)
+                .orElseThrow(() -> new UserGameNotFoundException(userId, igdbId));
+        if(newUserGame.getReview() == null) throw new RuntimeException("Review does not exist");
+
+        if (reviewComment != null && !newUserGame.getReview().equals(reviewComment)){
+            newUserGame.setReview(reviewComment);
+        }
+        userGameRepository.save(newUserGame);
+    }
+
+    public void deleteReviewComment(Long userId, Long igdbId) {
         if(!userRepository.existsById(userId)) throw new UserNotFoundException(userId);
         UserGame newUserGame = userGameRepository.getGameByUserIdIgdbId(userId, igdbId)
                 .orElseThrow(() -> new UserGameNotFoundException(userId, igdbId));
@@ -100,18 +120,19 @@ public class ReviewService {
         userGameRepository.save(newUserGame);
     }
 
-    public void deleteAllGameReviews(Long igdbId) {
+    public void deleteAllGameReviewComments(Long igdbId) {
         List<UserGame> userGameList = userGameRepository.getAllUserGamesByIgdbId(igdbId);
         for (UserGame u : userGameList){
             u.setReview(null);
+            userGameRepository.save(u);
         }
     }
 
-    public void deleteAllUserReviews(Long userId) {
+    public void deleteAllUserReviewComments(Long userId) {
         List<UserGame> userGameList = userGameRepository.getAllUserGamesByUserId(userId);
         for (UserGame u : userGameList){
             u.setReview(null);
+            userGameRepository.save(u);
         }
     }
-
 }
